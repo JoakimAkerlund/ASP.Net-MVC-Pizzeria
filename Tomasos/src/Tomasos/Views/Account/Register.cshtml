@@ -1,0 +1,25 @@
+﻿@model Tomasos.Models.RegisterViewModel
+
+<h2>Register new user</h2>
+<form asp-controller="Account" asp-action="Register" method="post"
+      asp-route-returnUrl="@ViewData["ReturnUrl"]">
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <label asp-for="Email"></label>
+    <br />
+    <input asp-for="Email" />
+    <span asp-validation-for="Email" class="text-danger"></span>
+    <br />
+    <label asp-for="Password"></label>
+    <br />
+    <input asp-for="Password" />
+    <span asp-validation-for="Password" class="text-danger"></span>
+    <br />
+    <label asp-for="ConfirmPassword"></label>
+    <br />
+    <input asp-for="ConfirmPassword" />
+    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+    <br /><br />
+    <button type="submit">Register</button>
+</form>

@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Tomasos.Models.Dish>
+@{
+    ViewData["Title"] = "Tomasos Pizzeria";
+}
+
+
+<table class="table">
+    <tr>
+        
+    </tr>
+
+    @foreach (var dish in Model)
+    {
+
+        <tr>
+            <td>@dish.Title</td>
+
+            <td>Ingredienser: @dish.Ingredients</td>
+            <td>Kategori: @dish.Category</td>
+            <td>Pris: @dish.Price</td>
+            @if (User.Identity.IsAuthenticated)
+                {
+                <td>
+                    <form asp-action="AddDish" asp-controller="ShoppingCart" asp-route-dishID="@dish.ID" class="pull-right">
+                        <input type="submit" value="Lägg till i kundvagn" class="btn btn-primary btn-sm pull-right">
+                    </form>
+                </td>
+            }
+        </tr>
+
+
+
+
+    }
+</table>
+
