@@ -8,8 +8,8 @@ using Tomasos.Data;
 namespace Tomasos.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170119112751_first")]
-    partial class first
+    [Migration("20170125133448_v1")]
+    partial class v1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -173,6 +173,24 @@ namespace Tomasos.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("Tomasos.Models.Customer", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Address");
+
+                    b.Property<string>("Email");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Phone");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Customer");
+                });
+
             modelBuilder.Entity("Tomasos.Models.Dish", b =>
                 {
                     b.Property<int>("ID")
@@ -198,6 +216,8 @@ namespace Tomasos.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("CustomerID");
+
                     b.Property<DateTime>("Date");
 
                     b.HasKey("ID");
@@ -210,20 +230,17 @@ namespace Tomasos.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("DishID");
+                    b.Property<int>("CustomerLink");
+
+                    b.Property<int>("DishID");
 
                     b.Property<decimal>("Price");
 
                     b.Property<int>("Quantity");
 
-                    b.Property<int>("ShoppingCartID");
-
                     b.HasKey("ID");
 
                     b.HasIndex("DishID");
-
-                    b.HasIndex("ShoppingCartID")
-                        .IsUnique();
 
                     b.ToTable("ShoppingCartDetails");
                 });
@@ -269,11 +286,7 @@ namespace Tomasos.Migrations
                 {
                     b.HasOne("Tomasos.Models.Dish", "Dish")
                         .WithMany()
-                        .HasForeignKey("DishID");
-
-                    b.HasOne("Tomasos.Models.ShoppingCart", "ShoppingCart")
-                        .WithOne("ShoppingCartDetails")
-                        .HasForeignKey("Tomasos.Models.ShoppingCartDetails", "ShoppingCartID")
+                        .HasForeignKey("DishID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
         }

@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Dish>
+@if (User.Identity.IsAuthenticated)
+{
+<div class="well">
+    <h1>Varukorg</h1>
+    <h2>Antal varor:@ViewData["ShoppingCartQuantity"]</h2>
+    <h2>@ViewData["ShoppingCartPrice"]</h2>
+    <form asp-action="Checkout" asp-controller="ShoppingCart" asp-route-CustomerEmail="" class="pull-right">
+        <input type="submit" value="Lägg Beställning" class="btn btn-primary btn-sm pull-right">
+    </form>
+</div>
+}
+@foreach (var dish in Model)
+{
+    <div class="well">
+        <h3>
+            <strong>@dish.Title</strong>
+            <span class="pull-right label label-primary">
+                @dish.Price.ToString("c")
+            </span>
+        </h3>
+        <span class="lead">@dish.Description</span>
+        @if (User.Identity.IsAuthenticated)
+        {
+                <form asp-action="AddDish" asp-controller="ShoppingCart" asp-route-dishID="@dish.DishID" asp-route-CustomerEmail="" class="pull-right">
+                    <input type="submit" value="Lägg till i kundvagn" class="btn btn-primary btn-sm pull-right">
+                </form>
+            
+        }
+    </div>
+}
+
+
+
+

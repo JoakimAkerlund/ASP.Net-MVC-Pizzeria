@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Tomasos.Migrations
 {
-    public partial class first : Migration
+    public partial class v1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -63,6 +63,22 @@ namespace Tomasos.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Customer",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Address = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
+                    Phone = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Customer", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Dish",
                 columns: table => new
                 {
@@ -85,6 +101,7 @@ namespace Tomasos.Migrations
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CustomerID = table.Column<int>(nullable: false),
                     Date = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -184,10 +201,10 @@ namespace Tomasos.Migrations
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    DishID = table.Column<int>(nullable: true),
+                    CustomerLink = table.Column<int>(nullable: false),
+                    DishID = table.Column<int>(nullable: false),
                     Price = table.Column<decimal>(nullable: false),
-                    Quantity = table.Column<int>(nullable: false),
-                    ShoppingCartID = table.Column<int>(nullable: false)
+                    Quantity = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -196,12 +213,6 @@ namespace Tomasos.Migrations
                         name: "FK_ShoppingCartDetails_Dish_DishID",
                         column: x => x.DishID,
                         principalTable: "Dish",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_ShoppingCartDetails_ShoppingCart_ShoppingCartID",
-                        column: x => x.ShoppingCartID,
-                        principalTable: "ShoppingCart",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -246,12 +257,6 @@ namespace Tomasos.Migrations
                 name: "IX_ShoppingCartDetails_DishID",
                 table: "ShoppingCartDetails",
                 column: "DishID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ShoppingCartDetails_ShoppingCartID",
-                table: "ShoppingCartDetails",
-                column: "ShoppingCartID",
-                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -272,6 +277,12 @@ namespace Tomasos.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Customer");
+
+            migrationBuilder.DropTable(
+                name: "ShoppingCart");
+
+            migrationBuilder.DropTable(
                 name: "ShoppingCartDetails");
 
             migrationBuilder.DropTable(
@@ -282,9 +293,6 @@ namespace Tomasos.Migrations
 
             migrationBuilder.DropTable(
                 name: "Dish");
-
-            migrationBuilder.DropTable(
-                name: "ShoppingCart");
         }
     }
 }

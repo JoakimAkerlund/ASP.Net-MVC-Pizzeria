@@ -1,22 +1,23 @@
-﻿@model Tomasos.Models.LoginViewModel
-
+﻿@model Tomasos.ViewModels.LoginViewModel
+<div class="well">
     <h2>Log in</h2>
 
     <form asp-controller="Account" asp-action="Login" method="post"
           asp-route-returnUrl="@ViewData["ReturnUrl"]">
 
-            <div asp-validation-summary="All" class="text-danger"></div>
+        <div asp-validation-summary="All" class="text-danger"></div>
 
-                <label asp-for="Email"></label>
+        <label asp-for="Email"></label>
         <br />
-                <input asp-for="Email" />            
-            <span asp-validation-for="Email" class="text-danger"></span>
+        <input asp-for="Email" />
+        <span asp-validation-for="Email" class="text-danger"></span>
         <br />
-            <label asp-for="Password"></label>
+        <label asp-for="Password"></label>
         <br />
-            <input asp-for="Password" />
-            <span asp-validation-for="Password" class="text-danger"></span>
+        <input asp-for="Password" />
+        <span asp-validation-for="Password" class="text-danger"></span>
         <br /><br />
-            <button type="submit">Log in</button>
-        
+        <button type="submit">Log in</button>
+
     </form>
+</div>

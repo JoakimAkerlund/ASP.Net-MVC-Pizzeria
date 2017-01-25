@@ -17,6 +17,7 @@ namespace Tomasos.Data
         public DbSet<Dish> Dish { get; set; }
         public DbSet<ShoppingCart> ShoppingCart { get; set; }
         public DbSet<ShoppingCartDetails> ShoppingCartDetails { get; set; }
+        public DbSet<Customer> Customer { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

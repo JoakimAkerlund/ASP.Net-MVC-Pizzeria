@@ -6,8 +6,10 @@ using Tomasos.Models;
 
 namespace Tomasos.ViewModels
 {
-    public class DishViewModel
+    public class DishListViewModel
     {
-        public Dish MyProperty { get; set; }
+        public IEnumerable<Dish> Dishs { get; set; }
+
+
     }
 }

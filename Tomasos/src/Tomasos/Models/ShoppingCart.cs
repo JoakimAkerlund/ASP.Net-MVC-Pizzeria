@@ -8,7 +8,8 @@ namespace Tomasos.Models
     public class ShoppingCart
     {
         public int ID { get; set; }
+        public int CustomerID { get; set; }
         public DateTime Date { get; set; }
-        public ShoppingCartDetails ShoppingCartDetails { get; set; }
+        
     }
 }

@@ -1,0 +1,19 @@
+﻿@model IEnumerable<Tomasos.Models.ShoppingCartDetails>
+@if (Model != null)
+{
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="well">
+        <h1>Tack för din beställning</h1>
+        <p>Du har beställt följande:</p>
+        @foreach (var shoppingcartdetail in Model)
+        {
+            <ul>
+                <li>@shoppingcartdetail.Dish.Title</li>
+            </ul>
+
+
+        }
+    </div>
+}
+}

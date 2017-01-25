@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Tomasos.Data;
 using Tomasos.Models;
-using Tomasos.Services;
+
 
 namespace Tomasos
 {
@@ -19,6 +19,7 @@ namespace Tomasos
     {
         public Startup(IHostingEnvironment env)
         {
+
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -39,6 +40,9 @@ namespace Tomasos
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IDishRepository,
+            DishRepository>();
+            
             // Add framework services.
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -47,6 +51,12 @@ namespace Tomasos
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.CookieName = "Varukorg";
+            });
             //var connection =
             //@"Server=(localdb)\mssqllocaldb;Database=Tomasos Pizzeria;Trusted_Connection=True;";
             //services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connection));
@@ -54,8 +64,8 @@ namespace Tomasos
             services.AddMvc();
 
             // Add application services.
-            services.AddTransient<IEmailSender, AuthMessageSender>();
-            services.AddTransient<ISmsSender, AuthMessageSender>();
+            //services.AddTransient<IEmailSender, AuthMessageSender>();
+            //services.AddTransient<ISmsSender, AuthMessageSender>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -80,12 +90,12 @@ namespace Tomasos
             app.UseIdentity();
 
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
-
+            app.UseSession();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Dish}/{action=Index}/{id?}");
             });
             DbInitialize.Initialize(context);
         }
